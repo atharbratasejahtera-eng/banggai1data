@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banggai Satu Data - Modern</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Login Modal untuk Admin -->
+    <div class="login-modal" id="loginModalAdmin">
+        <div class="login-container">
+            <div class="login-title">
+                <i class="fas fa-user-shield"></i>
+                <h2>Login Admin</h2>
+                <p>Akses Penuh Dashboard Admin</p>
+            </div>
+            
+            <div class="login-input-group">
+                <label for="usernameAdmin">Username</label>
+                <input type="text" id="usernameAdmin" placeholder="Masukkan username" autocomplete="off">
+            </div>
+            
+            <div class="login-input-group">
+                <label for="passwordAdmin">Password</label>
+                <input type="password" id="passwordAdmin" placeholder="Masukkan password" autocomplete="off">
+            </div>
+            
+            <div class="login-error" id="loginErrorAdmin">
+                <i class="fas fa-exclamation-circle"></i> Username atau password salah!
+            </div>
+            
+            <button class="login-btn" id="loginButtonAdmin">
+                <i class="fas fa-sign-in-alt"></i> Masuk
+            </button>
+            
+            <div class="login-info">
+                <p>Informasi Login Admin:</p>
+                <div class="login-credentials">
+                    <p><strong>Username:</strong> admin</p>
+                    <p><strong>Password:</strong> banggai123</p>
+                </div>
+                <p style="margin-top: 15px; font-size: 0.8rem;">
+                    <i class="fas fa-info-circle"></i> Hanya untuk admin Diskominfo Banggai
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal untuk Edit Data -->
+    <div class="modal" id="editModal">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3 class="modal-title"><i class="fas fa-edit"></i> Edit Data Website Desa</h3>
+                <button class="close-modal" id="closeEditModal">&times;</button>
+            </div>
+            <div id="editModalContent">
+                <!-- Konten edit akan diisi oleh JavaScript -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal untuk Admin Tools -->
+    <div class="modal" id="adminToolsModal">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3 class="modal-title"><i class="fas fa-tools"></i> Admin Tools</h3>
+                <button class="close-modal" id="closeAdminToolsModal">&times;</button>
+            </div>
+            <div class="admin-tools-panel">
+                <div class="admin-tools-grid">
+                    <div class="tool-card" id="toolEditAllData">
+                        <div class="tool-icon">
+                            <i class="fas fa-database"></i>
+                        </div>
+                        <div class="tool-title">Edit Semua Data</div>
+                        <div class="tool-desc">Edit, hapus, atau tambah data website desa</div>
+                    </div>
+                    
+                    <div class="tool-card" id="toolManageKecamatan">
+                        <div class="tool-icon">
+                            <i class="fas fa-map-marked-alt"></i>
+                        </div>
+                        <div class="tool-title">Kelola Kecamatan</div>
+                        <div class="tool-desc">Tambah atau edit daftar kecamatan</div>
+                    </div>
+                    
+                    <div class="tool-card" id="toolEditMenu">
+                        <div class="tool-icon">
+                            <i class="fas fa-bars"></i>
+                        </div>
+                        <div class="tool-title">Edit Menu</div>
+                        <div class="tool-desc">Atur menu yang ditampilkan</div>
+                    </div>
+                    
+                    <div class="tool-card" id="toolBackupData">
+                        <div class="tool-icon">
+                            <i class="fas fa-save"></i>
+                        </div>
+                        <div class="tool-title">Backup Data</div>
+                        <div class="tool-desc">Backup atau restore data sistem</div>
+                    </div>
+                    
+                    <div class="tool-card" id="toolEditContent">
+                        <div class="tool-icon">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <div class="tool-title">Edit Konten</div>
+                        <div class="tool-desc">Edit teks dan konten halaman</div>
+                    </div>
+                    
+                    <div class="tool-card" id="toolSystemSettings">
+                        <div class="tool-icon">
+                            <i class="fas fa-cog"></i>
+                        </div>
+                        <div class="tool-title">Pengaturan Sistem</div>
+                        <div class="tool-desc">Atur preferensi sistem</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <div class="logo-text">
+                        <h1>BANGGAI SATU DATA</h1>
+                        <p>Modern - Terintegrasi - Akuntabel</p>
+                    </div>
+                </div>
+                <div class="header-nav">
+                    <button class="nav-btn active" id="navDashboard">
+                        <i class="fas fa-tachometer-alt"></i> Dashboard
+                    </button>
+                    <button class="nav-btn" id="navAdminTools" style="display: none;">
+                        <i class="fas fa-tools"></i> Admin Tools
+                    </button>
+                    <div class="admin-info" id="adminInfo" style="display: none;">
+                        <i class="fas fa-user-shield"></i>
+                        <span class="admin-name">Administrator</span>
+                        <button class="logout-btn" id="logoutButton">Logout</button>
+                    </div>
+                    <button class="nav-btn" id="navLogin">
+                        <i class="fas fa-sign-in-alt"></i> Login Admin
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Running Text -->
+    <div class="running-text-container">
+        <div class="running-text">
+            <i class="fas fa-bullhorn"></i> BANGGAI SATU DATA BANGGAI MODERN - Sistem Pendataan dan Monitoring Website Desa Kabupaten Banggai
+        </div>
+    </div>
+    
+    <!-- Main Dashboard -->
+    <section class="main-dashboard">
+        <div class="container">
+            <h2 class="dashboard-title" id="pageTitle">DASHBOARD UTAMA</h2>
+            
+            <!-- Menu Container -->
+            <div class="menu-container">
+                <!-- Sidebar Menu (Hanya Pendaftaran untuk user umum) -->
+                <div class="menu-sidebar" id="userMenuSidebar">
+                    <h3 class="menu-title"><i class="fas fa-bars"></i> Menu Utama</h3>
+                    <ul class="menu-list">
+                        <li class="menu-item">
+                            <button class="menu-btn active" id="menuPendaftaran">
+                                <i class="fas fa-edit"></i> Pendaftaran Website Desa
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Sidebar Menu (Admin) -->
+                <div class="menu-sidebar" id="adminMenuSidebar" style="display: none;">
+                    <h3 class="menu-title"><i class="fas fa-bars"></i> Menu Admin</h3>
+                    <ul class="menu-list">
+                        <li class="menu-item">
+                            <button class="menu-btn active" id="menuPendaftaranAdmin">
+                                <i class="fas fa-edit"></i> Pendaftaran Website Desa
+                            </button>
+                        </li>
+                        <li class="menu-item">
+                            <button class="menu-btn" id="menuMonitoring">
+                                <i class="fas fa-chart-bar"></i> Monitoring Data
+                            </button>
+                        </li>
+                        <li class="menu-item">
+                            <button class="menu-btn" id="menuExport">
+                                <i class="fas fa-file-export"></i> Eksport Data
+                            </button>
+                        </li>
+                        <li class="menu-item">
+                            <button class="menu-btn" id="menuKecamatan">
+                                <i class="fas fa-map-marked-alt"></i> Daftar Kecamatan
+                            </button>
+                        </li>
+                        <li class="menu-item">
+                            <button class="menu-btn" id="menuStatistik">
+                                <i class="fas fa-chart-pie"></i> Statistik
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Content Area -->
+                <div class="menu-content">
+                    <!-- Pendaftaran Content (Default) -->
+                    <div id="pendaftaranContent" class="menu-section">
+                        <h3 class="menu-title"><i class="fas fa-edit"></i> Form Pendaftaran Website Desa</h3>
+                        
+                        <div class="form-container">
+                            <form id="registrationForm">
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="desaName">Nama Desa *</label>
+                                        <input type="text" id="desaName" placeholder="Masukkan nama desa" required>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="kecamatan">Kecamatan *</label>
+                                        <select id="kecamatan" required>
+                                            <option value="">Pilih Kecamatan</option>
+                                            <!-- Options will be populated by JavaScript -->
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="websiteUrl">URL Website (jika sudah ada)</label>
+                                        <input type="url" id="websiteUrl" placeholder="https://contohdesa.banggai.go.id">
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="jenisPendaftaran">Jenis Pendaftaran *</label>
+                                        <select id="jenisPendaftaran" required>
+                                            <option value="">Pilih Jenis Pendaftaran</option>
+                                            <option value="baru">Buat Website Baru</option>
+                                            <option value="pengembangan">Pengembangan Website (Sudah Ada)</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="contactPerson">Nama Penanggung Jawab *</label>
+                                        <input type="text" id="contactPerson" placeholder="Nama penanggung jawab desa" required>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="contactPhone">Nomor Telepon *</label>
+                                        <input type="tel" id="contactPhone" placeholder="08xxxxxxxxxx" required>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="email">Email</label>
+                                    <input type="email" id="email" placeholder="email@desa.banggai.go.id">
+                                </div>
+                                
+                                <button type="submit" class="submit-btn">
+                                    <i class="fas fa-paper-plane"></i> Daftarkan Website Desa
+                                </button>
+                            </form>
+                        </div>
+                        
+                        <div class="kecamatan-list">
+                            <h4><i class="fas fa-info-circle"></i> Daftar Kecamatan di Kabupaten Banggai</h4>
+                            <div class="kecamatan-grid" id="kecamatanList">
+                                <!-- Kecamatan items will be populated by JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Admin Tools Content (Hidden by default) -->
+                    <div id="adminToolsContent" class="menu-section" style="display: none;">
+                        <div class="admin-tools-panel">
+                            <div class="admin-tools-header">
+                                <h3><i class="fas fa-tools"></i> Admin Tools Dashboard</h3>
+                                <button class="admin-tools-btn" id="openAdminToolsModal">
+                                    <i class="fas fa-cog"></i> Buka Tools Lengkap
+                                </button>
+                            </div>
+                            <p>Selamat datang di dashboard admin. Gunakan tools di bawah untuk mengelola sistem.</p>
+                        </div>
+                        
+                        <!-- Edit All Data Section -->
+                        <div style="margin-top: 30px;">
+                            <h4 class="menu-title"><i class="fas fa-database"></i> Kelola Data Website Desa</h4>
+                            
+                            <div class="search-filter">
+                                <div class="search-box">
+                                    <input type="text" id="adminSearchInput" placeholder="Cari nama desa atau kecamatan...">
+                                    <button class="search-btn"><i class="fas fa-search"></i> Cari</button>
+                                </div>
+                            </div>
+                            
+                            <div class="data-table-container">
+                                <div id="adminTableContainer">
+                                    <!-- Table will be populated by JavaScript -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Monitoring Content (Hidden by default) -->
+                    <div id="monitoringContent" class="menu-section" style="display: none;">
+                        <h3 class="menu-title"><i class="fas fa-chart-bar"></i> Monitoring Data Website Desa</h3>
+                        
+                        <!-- Stats Cards -->
+                        <div class="stats-container">
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-globe"></i>
+                                </div>
+                                <div class="stat-number" id="totalDesa">0</div>
+                                <div class="stat-label">Total Desa Terdaftar</div>
+                            </div>
+                            
+                            <div class="stat-card hijau">
+                                <div class="stat-icon">
+                                    <i class="fas fa-plus-circle"></i>
+                                </div>
+                                <div class="stat-number" id="websiteBaru">0</div>
+                                <div class="stat-label">Website Baru</div>
+                            </div>
+                            
+                            <div class="stat-card gold">
+                                <div class="stat-icon">
+                                    <i class="fas fa-tools"></i>
+                                </div>
+                                <div class="stat-number" id="pengembanganWebsite">0</div>
+                                <div class="stat-label">Pengembangan</div>
+                            </div>
+                            
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-map"></i>
+                                </div>
+                                <div class="stat-number" id="kecamatanTerdaftar">0</div>
+                                <div class="stat-label">Kecamatan Terdaftar</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Search and Filter -->
+                        <div class="search-filter">
+                            <div class="search-box">
+                                <input type="text" id="searchInput" placeholder="Cari nama desa atau kecamatan...">
+                                <button class="search-btn"><i class="fas fa-search"></i> Cari</button>
+                            </div>
+                            
+                            <div class="filter-section">
+                                <select class="filter-select" id="kecamatanFilter">
+                                    <option value="">Filter Berdasarkan Kecamatan</option>
+                                    <!-- Options will be populated by JavaScript -->
+                                </select>
+                                
+                                <select class="filter-select" id="jenisFilter">
+                                    <option value="">Filter Berdasarkan Jenis</option>
+                                    <option value="baru">Website Baru</option>
+                                    <option value="pengembangan">Pengembangan Website</option>
+                                </select>
+                                
+                                <button class="filter-select" id="resetFilter" style="background-color: var(--abu); color: white; border: none; cursor: pointer;">
+                                    <i class="fas fa-redo"></i> Reset Filter
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Data Table -->
+                        <div class="data-table-container">
+                            <div id="tableContainer">
+                                <!-- Table will be populated by JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Export Content (Hidden by default) -->
+                    <div id="exportContent" class="menu-section" style="display: none;">
+                        <h3 class="menu-title"><i class="fas fa-file-export"></i> Eksport Data Website Desa</h3>
+                        
+                        <!-- Export Tools -->
+                        <div class="export-tools">
+                            <h4><i class="fas fa-download"></i> Pilihan Format Eksport</h4>
+                            <p>Pilih format file yang ingin Anda eksport:</p>
+                            
+                            <div class="export-options">
+                                <button class="export-option-btn excel" id="exportExcel">
+                                    <i class="fas fa-file-excel"></i> Export ke Excel
+                                </button>
+                                <button class="export-option-btn pdf" id="exportPDF">
+                                    <i class="fas fa-file-pdf"></i> Export ke PDF
+                                </button>
+                                <button class="export-option-btn print" id="exportPrint">
+                                    <i class="fas fa-print"></i> Cetak Laporan
+                                </button>
+                            </div>
+                            
+                            <div class="export-status" id="exportStatus"></div>
+                        </div>
+                        
+                        <!-- Data Preview -->
+                        <div style="margin-top: 30px;">
+                            <h4><i class="fas fa-eye"></i> Preview Data yang akan Dieksport</h4>
+                            <div class="data-table-container" style="margin-top: 15px;">
+                                <div id="exportPreview">
+                                    <!-- Data preview akan diisi oleh JavaScript -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Kecamatan Content (Hidden by default) -->
+                    <div id="kecamatanContent" class="menu-section" style="display: none;">
+                        <h3 class="menu-title"><i class="fas fa-map-marked-alt"></i> Daftar Kecamatan dan Status Website</h3>
+                        
+                        <div class="kecamatan-grid" id="kecamatanStatusList">
+                            <!-- Kecamatan status items will be populated by JavaScript -->
+                        </div>
+                    </div>
+                    
+                    <!-- Statistik Content (Hidden by default) -->
+                    <div id="statistikContent" class="menu-section" style="display: none;">
+                        <h3 class="menu-title"><i class="fas fa-chart-pie"></i> Statistik Website Desa per Kecamatan</h3>
+                        
+                        <div class="stats-container">
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-map"></i>
+                                </div>
+                                <div class="stat-number">24</div>
+                                <div class="stat-label">Total Kecamatan</div>
+                            </div>
+                            
+                            <div class="stat-card hijau">
+                                <div class="stat-icon">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                                <div class="stat-number" id="kecamatanAktif">0</div>
+                                <div class="stat-label">Kecamatan Terdaftar</div>
+                            </div>
+                            
+                            <div class="stat-card gold">
+                                <div class="stat-icon">
+                                    <i class="fas fa-chart-line"></i>
+                                </div>
+                                <div class="stat-number" id="persentaseAktif">0%</div>
+                                <div class="stat-label">Rata-rata Pendaftaran</div>
+                            </div>
+                            
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-calendar-alt"></i>
+                                </div>
+                                <div class="stat-number" id="tahunIni">2023</div>
+                                <div class="stat-label">Tahun Pendataan</div>
+                            </div>
+                        </div>
+                        
+                        <div id="statistikDetail">
+                            <!-- Statistik detail will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <i class="fas fa-database"></i>
+                </div>
+                <div class="footer-text">
+                    <h3>BANGGAI SATU DATA - MODERN</h3>
+                    <p>Sistem terintegrasi untuk pendataan, pendaftaran, monitoring, dan eksport data website desa di Kabupaten Banggai.</p>
+                </div>
+                <div class="copyright">
+                    <p>&copy; 2023 Dinas Komunikasi dan Informatika Kabupaten Banggai. All rights reserved.</p>
+                    <p style="font-size: 0.8rem; margin-top: 10px; opacity: 0.7;">
+                        <i class="fas fa-shield-alt"></i> Menu Admin hanya untuk pengguna terotorisasi
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <script src="script.js"></script>
+</body>
+</html>
